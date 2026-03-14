@@ -21,9 +21,9 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--pte", type=str, default="model.pte", help="Path to output the PTE file.")
-parser.add_argument("--model", type=str, choices=["mobilenet", "squeezenet", "lenet", "alexnet", "mobilenetv3small", "transformer"],
+parser.add_argument("--model", type=str, choices=["mobilenet", "squeezenet", "lenet", "alexnet", "mobilenetv3small", "transformer", "mnist_mlp"],
                     default="mobilenet",
-                    help="Choose the model to export: 'mobilenet' (default), 'squeezenet', 'lenet', 'alexnet', 'mobilenetv3small', or 'transformer'.")
+                    help="Choose the model to export: 'mobilenet' (default), 'squeezenet', 'lenet', 'alexnet', 'mobilenetv3small', 'transformer', or 'mnist_mlp'.")
 parser.add_argument("--precision", type=str, choices=["fp32", "fp16"],
                     default="fp32",
                     help="Choose the model data type, fp32 or fp16")
@@ -83,6 +83,10 @@ elif args.model == "transformer":
     
     model = SimpleTransformer().eval()
     sample_inputs = (torch.randn(1, 16, 64),)  # (batch_size, seq_len, d_model)
+elif args.model == "mnist_mlp":
+    from mnist_mlp import create_balanced_model
+    model = create_balanced_model().eval()
+    sample_inputs = (torch.randn(1, 28, 28),)
 elif args.model == "gpt2":
     model = GPT.from_pretrained('gpt2')
     example_inputs = (torch.randint(0, 100, (1, model.config.block_size), dtype=torch.long), )
