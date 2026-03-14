@@ -8,8 +8,7 @@ from torchvision.models.mobilenetv3 import MobileNet_V3_Small_Weights  # Import 
 
 from executorch.backends.xnnpack.partition.xnnpack_partitioner import XnnpackPartitioner
 from executorch.backends.xnnpack.utils.configs import get_xnnpack_edge_compile_config
-from executorch.exir import EdgeProgramManager, ExecutorchProgramManager, to_edge
-from executorch.exir.backend.backend_api import to_backend
+from executorch.exir import to_edge_transform_and_lower
 
 # from torchao.quantization.quant_api import Int8DynActInt4WeightQuantizer
 
@@ -99,11 +98,10 @@ elif args.precision == "fp16":
     model = model.half()
     sample_inputs = (sample_inputs[0].half(),)
     exported_program: ExportedProgram = export(model, sample_inputs)
-# fp32
-edge: EdgeProgramManager = to_edge(exported_program)
-
-# Set up the partitioner (using XnnpackPartitioner as in the original code)
-edge = edge.to_backend(XnnpackPartitioner())
+edge = to_edge_transform_and_lower(
+    exported_program,
+    partitioner=[XnnpackPartitioner()],
+)
 
 exec_prog = edge.to_executorch()
 
