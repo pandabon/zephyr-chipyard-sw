@@ -142,7 +142,7 @@ main() {
   log "Installing additional executorch Python dependencies (optional)..."
   if [ -f "third-party/executorch/install_requirements.sh" ]; then
     log "Running install_requirements.sh..."
-    if ! eval "${CONDA_RUN} bash third-party/executorch/install_requirements.sh" >> "${LOG_FILE}" 2>&1; then
+    if ! eval "${CONDA_RUN} bash third-party/executorch/install_requirements.sh --use-pt-pinned-commit" >> "${LOG_FILE}" 2>&1; then
       WARNINGS+=("executorch install_requirements.sh failed. This is optional and may not be needed for basic usage.")
       log_error "executorch install_requirements.sh failed - continuing with installation"
       log "You can try running it manually later: conda run -n zephyr bash third-party/executorch/install_requirements.sh"
