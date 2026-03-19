@@ -1,6 +1,6 @@
 sample:
-  description: A simple example demonstrating XNNPack library
-  name: xnnpack 
+  description: ExecuTorch inference on RISC-V with XNNPack backend (lowering flow testbed)
+  name: exeggutorch
 common:
   tags: introduction
   integration_platforms:

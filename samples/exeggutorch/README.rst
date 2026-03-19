@@ -1,7 +1,9 @@
-.. zephyr:code-sample:: simple_eigen
-   :name: Hello world Executorch library
+.. zephyr:code-sample:: exeggutorch
+   :name: ExecuTorch inference on RISC-V (exeggutorch)
 
-   Demonstrate basic Executorch usage with XNNPack backend with one MobileNetV2 model.
+   Test the ExecuTorch lowering and inference flow on RISC-V using XNNPack backend.
+   Supports multiple models (MobileNetV2, LeNet, TinyMLP, SimpleTransformer, etc.)
+   as stepping stones toward VLA deployment on target hardware.
 
    Python Dependencies:
    - Executorch
