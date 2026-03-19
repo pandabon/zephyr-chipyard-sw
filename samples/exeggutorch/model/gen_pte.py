@@ -236,9 +236,9 @@ def main():
 
     if args.test:
         run_test(model, sample_inputs)
-        return
+        if not args.lstats:
+            return
 
-    print(f"Output: {args.pte}")
     exported_program: ExportedProgram = export(model, sample_inputs)
 
     if args.deprecated_lower:
@@ -260,7 +260,7 @@ def main():
         print(tabulate(df, headers="keys", tablefmt="fancy_grid"))
         print("\n── Delegated Graph ──")
         print(format_delegated_graph(graph_module))
-
+    print(f"Output: {args.pte}")
     exec_prog = edge.to_executorch()
     with open(args.pte, "wb") as f:
         exec_prog.write_to_file(f)
