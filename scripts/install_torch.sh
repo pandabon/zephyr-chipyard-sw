@@ -138,6 +138,22 @@ main() {
     safe_exit 1
   fi
 
+  # Overlay fork's Python changes onto pip-installed executorch.
+  # The pip package installs under executorch/, but the repo has files at root
+  # (e.g. backends/xnnpack/). Symlink the modified directories so the fork's
+  # changes are picked up by normal Python imports.
+  log "Symlinking fork's Python modules over pip-installed executorch..."
+  ET_SITE=$(${CONDA_RUN} python -c "import executorch, os; print(os.path.dirname(executorch.__path__[0]))")
+  ET_PKG="${ET_SITE}/executorch"
+  ET_FORK="${REPO_ROOT}/third-party/executorch"
+  for mod_dir in backends/xnnpack; do
+    if [ -d "${ET_FORK}/${mod_dir}" ]; then
+      rm -rf "${ET_PKG}/${mod_dir}"
+      ln -sf "${ET_FORK}/${mod_dir}" "${ET_PKG}/${mod_dir}"
+      log "Symlinked ${mod_dir} -> fork"
+    fi
+  done
+
   # Install additional executorch Python dependencies (optional - only needed if building Python bindings or using Python tools)
   log "Installing additional executorch Python dependencies (optional)..."
   if [ -f "third-party/executorch/install_requirements.sh" ]; then
