@@ -11,35 +11,35 @@
 / {
 	cpus {
 		cpu@0 {
-			riscv,isa = "rv64gc";
+			riscv,isa = "rv64imafdc_zve64f_zvfbfmin";
 		};
 
 		cpu@1 {
-			riscv,isa = "rv64gc";
+			status = "disabled";
 		};
 
 		cpu@2 {
-			riscv,isa = "rv64gc";
+			status = "disabled";
 		};
 
 		cpu@3 {
-			riscv,isa = "rv64gc";
+			status = "disabled";
 		};
 
 		cpu@4 {
-			riscv,isa = "rv64gc";
+			status = "disabled";
 		};
 
 		cpu@5 {
-			riscv,isa = "rv64gc";
+			status = "disabled";
 		};
 
 		cpu@6 {
-			riscv,isa = "rv64gc";
+			status = "disabled";
 		};
 
 		cpu@7 {
-			riscv,isa = "rv64gc";
+			status = "disabled";
 		};
 	};
 };
